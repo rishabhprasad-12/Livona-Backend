@@ -15,7 +15,7 @@ module.exports.createNewListing = async (req, res) => {
 module.exports.showListing = async (req, res, next) => {
   let { id } = req.params;
   const listing = await Listings.findById(id).populate({
-    path: "reviews",
+    path: "reviews", 
     options: { sort: { createdAt: -1 } },
   });
 
