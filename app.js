@@ -7,8 +7,14 @@ const cors = require("cors");
 const app = express();
 
 const Listings = require("./models/listing");
+const Reviews = require("./models/review");
+
 const wrapAsync = require("./utils/wrapAsync");
 const ExpressError = require("./utils/ExpressError");
+const { validateListing, validateReview } = require("./middleware/middleware");
+
+const listing = require("./routes/listing");
+const review = require("./routes/review");
 
 main()
   .then(() => {
@@ -30,63 +36,11 @@ app.use(
   }),
 );
 
-// Delete Route
-app.delete(
-  "/api/listings/:id",
-  wrapAsync(async (req, res) => {
-    let { id } = req.params;
-    const listing = await Listings.findByIdAndDelete(id);
-    console.log(listing);
-    res.json({
-      success: true,
-      message: "Listing deleted",
-    });
-  }),
-);
+// Review Route
+app.use("/api/listings/:id/review", review);
 
-// New Route
-app.post(
-  "/api/listings",
-  wrapAsync(async (req, res) => {
-    const listing = req.body.listing;
-    const newListing = new Listings(listing);
-
-    await newListing.save();
-    res.json(listing);
-  }),
-);
-
-// Edit Route
-app.put(
-  "/api/listings/:id",
-  wrapAsync(async (req, res) => {
-    let { id } = req.params;
-    const listing = await Listings.findByIdAndUpdate(id, {
-      ...req.body.listing,
-    });
-    console.log(listing);
-    res.json(listing);
-  }),
-);
-
-// Show one Listing Route
-app.get(
-  "/api/listings/:id",
-  wrapAsync(async (req, res) => {
-    let { id } = req.params;
-    const listing = await Listings.findById(id);
-    res.json(listing);
-  }),
-);
-
-// All Listing Route
-app.get(
-  "/api/listings",
-  wrapAsync(async (req, res) => {
-    const allListing = await Listings.find({});  
-    res.json(allListing);
-  }),
-);
+// Listing Route
+app.use("/api/listings", listing);
 
 app.use((req, res, next) => {
   next(new ExpressError(404, "Page not found!"));
