@@ -23,15 +23,15 @@ const listingSchema = new Schema({
   },
   price: {
     type: Number,
-    require: true,
+    required: true,
   },
   country: {
     type: String,
-    require: true,
+    required: true,
   },
   location: {
     type: String,
-    require: true,
+    required: true,
   },
   reviews: [
     {
@@ -39,6 +39,10 @@ const listingSchema = new Schema({
       ref: "Review",
     },
   ],
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 listingSchema.post("findOneAndDelete", async(deletedListing) => {
