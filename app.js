@@ -16,6 +16,13 @@ const { validateListing, validateReview } = require("./middleware/middleware");
 const listing = require("./routes/listing");
 const review = require("./routes/review");
 
+const session = require("express-session");
+
+const User = require('./models/user');
+const user = require('./routes/auth');
+
+const MONGO_URI = process.env.MONGO_URL; 
+
 main()
   .then(() => {
     console.log("Connected to MongoDB");
@@ -25,16 +32,32 @@ main()
   });
 
 async function main() {
-  await mongoose.connect(process.env.MONGO_URL);
+  await mongoose.connect(MONGO_URI);
 }
-
-app.use(express.json());
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173"],
+    credentials: true,
   }),
 );
+
+const sessionOption = {
+  secret: process.env.JWT_SECRET,
+  resave: "false",
+  saveUninitialized: "true",
+  cookie: {
+    expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    httpOnly: true,
+  },
+};
+
+app.use(express.json());
+app.use(session(sessionOption));
+
+// User Route
+app.use("/api/auth", user);
 
 // Review Route
 app.use("/api/listings/:id/review", review);
@@ -42,6 +65,7 @@ app.use("/api/listings/:id/review", review);
 // Listing Route
 app.use("/api/listings", listing);
 
+// Custom error handlers
 app.use((req, res, next) => {
   next(new ExpressError(404, "Page not found!"));
 });

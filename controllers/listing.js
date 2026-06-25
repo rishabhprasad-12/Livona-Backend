@@ -2,22 +2,28 @@ const Listings = require("../models/listing");
 const ExpressError = require("../utils/ExpressError");
 
 module.exports.getAllListings = async (req, res) => {
-  const allListing = await Listings.find({});
+  const allListing = await Listings.find({}).populate({path: "reviews"});
   res.json(allListing);
 };
 
 module.exports.createNewListing = async (req, res) => {
   const newListing = new Listings(req.body.listing);
+  newListing.owner = req.user._id;
   await newListing.save();
-  res.json(newListing);
+  res.status(201).json(newListing);
 };
 
 module.exports.showListing = async (req, res, next) => {
   let { id } = req.params;
-  const listing = await Listings.findById(id).populate({
-    path: "reviews", 
-    options: { sort: { createdAt: -1 } },
-  });
+  const listing = await Listings.findById(id)
+    .populate("owner")
+    .populate({
+      path: "reviews",
+      populate: {
+        path: "author",
+      },
+      options: { sort: { createdAt: -1 } },
+    });
 
   if (!listing) {
     return next(new ExpressError(404, "Listing not found"));
