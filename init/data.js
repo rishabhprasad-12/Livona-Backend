@@ -1,23 +1,6 @@
 const sampleListings = [
   // --- ORIGINAL 20 LISTINGS (INDIAN DESTINATIONS) ---
-  {
-    title: "Cozy Mountain Cabin",
-    description: "A peaceful cabin surrounded by mountains and greenery.",
-    image:
-      "https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=1200&q=80",
-    price: 2500,
-    location: "Manali",
-    country: "India",
-  },
-  {
-    title: "Beachside Villa",
-    description: "Luxury villa with an amazing sea view.",
-    image:
-      "https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?auto=format&fit=crop&w=1200&q=80",
-    price: 7000,
-    location: "Goa",
-    country: "India",
-  },
+
   {
     title: "Modern City Apartment",
     description: "Stylish apartment in the heart of the city.",
@@ -27,15 +10,7 @@ const sampleListings = [
     location: "Mumbai",
     country: "India",
   },
-  {
-    title: "Desert Camp Stay",
-    description: "Experience traditional desert life and camel rides.",
-    image:
-      "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1200&q=80",
-    price: 1800,
-    location: "Jaisalmer",
-    country: "India",
-  },
+
   {
     title: "Lake View Cottage",
     description: "Beautiful cottage with stunning lake views.",
@@ -46,13 +21,14 @@ const sampleListings = [
     country: "India",
   },
   {
-    title: "Forest Treehouse",
-    description: "Unique treehouse stay inside a dense forest.",
+    title: "Island Lighthouse Stay",
+    description:
+      "A private island experience inside a decommissioned lighthouse.",
     image:
-      "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80",
-    price: 4500,
-    location: "Wayanad",
-    country: "India",
+      "https://images.unsplash.com/photo-1500049222539-6593a380017a?auto=format&fit=crop&w=1200&q=80",
+    price: 5900,
+    location: "Outer Hebrides",
+    country: "Scotland",
   },
   {
     title: "Luxury Palace Hotel",
@@ -99,15 +75,7 @@ const sampleListings = [
     location: "Darjeeling",
     country: "India",
   },
-  {
-    title: "Island Beach Hut",
-    description: "Affordable beach hut with tropical vibes.",
-    image:
-      "https://images.unsplash.com/photo-1506929562872-bb421503ef21?auto=format&fit=crop&w=1200&q=80",
-    price: 2100,
-    location: "Andaman",
-    country: "India",
-  },
+
   {
     title: "Luxury Penthouse",
     description: "Premium penthouse with skyline views.",
@@ -145,24 +113,6 @@ const sampleListings = [
     country: "India",
   },
   {
-    title: "Skyline Studio",
-    description: "Compact and modern studio apartment.",
-    image:
-      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80",
-    price: 3500,
-    location: "Delhi",
-    country: "India",
-  },
-  {
-    title: "Ancient Temple Stay",
-    description: "Spiritual retreat near famous temples.",
-    image:
-      "https://images.unsplash.com/photo-1604580864964-0462f5d5b1a8?auto=format&fit=crop&w=1200&q=80",
-    price: 1900,
-    location: "Varanasi",
-    country: "India",
-  },
-  {
     title: "Ocean Breeze Resort",
     description: "Resort with private beach access and pools.",
     image:
@@ -182,16 +132,7 @@ const sampleListings = [
   },
 
   // --- SECOND 20 LISTINGS (GLOBAL DESTINATIONS) ---
-  {
-    title: "Eco-Glass Igloo",
-    description:
-      "Witness the Northern Lights from your bed in a remote arctic sanctuary.",
-    image:
-      "https://images.unsplash.com/photo-1517154421773-0529f29ea451?auto=format&fit=crop&w=1200&q=80",
-    price: 8500,
-    location: "Ilulissat",
-    country: "Greenland",
-  },
+
   {
     title: "Silk Road Heritage Suite",
     description:
@@ -203,6 +144,24 @@ const sampleListings = [
     country: "Uzbekistan",
   },
   {
+    title: "Skyline Studio",
+    description: "Compact and modern studio apartment.",
+    image:
+      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80",
+    price: 3500,
+    location: "Delhi",
+    country: "India",
+  },
+  {
+    title: "Ancient Temple Stay",
+    description: "Spiritual retreat near famous temples.",
+    image:
+      "https://images.unsplash.com/photo-1604580864964-0462f5d5b1a8?auto=format&fit=crop&w=1200&q=80",
+    price: 1900,
+    location: "Varanasi",
+    country: "India",
+  },
+  {
     title: "Overwater Bamboo Villa",
     description:
       "Sustainable luxury with direct access to crystal clear coral reefs.",
@@ -211,6 +170,16 @@ const sampleListings = [
     price: 12500,
     location: "Bora Bora",
     country: "French Polynesia",
+  },
+  {
+    title: "Colonial Hacienda",
+    description:
+      "Spacious estate with cobblestone courtyards and bougainvillea.",
+    image:
+      "https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=1200&q=80",
+    price: 4700,
+    location: "Oaxaca",
+    country: "Mexico",
   },
   {
     title: "Renaissance Art Loft",
@@ -338,6 +307,24 @@ const sampleListings = [
     country: "China",
   },
   {
+    title: "Forest Treehouse",
+    description: "Unique treehouse stay inside a dense forest.",
+    image:
+      "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80",
+    price: 4500,
+    location: "Wayanad",
+    country: "India",
+  },
+  {
+    title: "Desert Camp Stay",
+    description: "Experience traditional desert life and camel rides.",
+    image:
+      "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1200&q=80",
+    price: 1800,
+    location: "Jaisalmer",
+    country: "India",
+  },
+  {
     title: "Nomadic Steppe Yurt",
     description:
       "Authentic nomadic living with modern comfort in the vast plains.",
@@ -357,25 +344,44 @@ const sampleListings = [
     location: "Tbilisi",
     country: "Georgia",
   },
+
   {
-    title: "Island Lighthouse Stay",
+    title: "Eco-Glass Igloo",
     description:
-      "A private island experience inside a decommissioned lighthouse.",
+      "Witness the Northern Lights from your bed in a remote arctic sanctuary.",
     image:
-      "https://images.unsplash.com/photo-1500049222539-6593a380017a?auto=format&fit=crop&w=1200&q=80",
-    price: 5900,
-    location: "Outer Hebrides",
-    country: "Scotland",
+      "https://images.unsplash.com/photo-1517154421773-0529f29ea451?auto=format&fit=crop&w=1200&q=80",
+    price: 8500,
+    location: "Ilulissat",
+    country: "Greenland",
   },
   {
-    title: "Colonial Hacienda",
-    description:
-      "Spacious estate with cobblestone courtyards and bougainvillea.",
+    title: "Island Beach Hut",
+    description: "Affordable beach hut with tropical vibes.",
     image:
-      "https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=1200&q=80",
-    price: 4700,
-    location: "Oaxaca",
-    country: "Mexico",
+      "https://images.unsplash.com/photo-1506929562872-bb421503ef21?auto=format&fit=crop&w=1200&q=80",
+    price: 2100,
+    location: "Andaman",
+    country: "India",
+  },
+
+  {
+    title: "Cozy Mountain Cabin",
+    description: "A peaceful cabin surrounded by mountains and greenery.",
+    image:
+      "https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=1200&q=80",
+    price: 2500,
+    location: "Manali",
+    country: "India",
+  },
+  {
+    title: "Beachside Villa",
+    description: "Luxury villa with an amazing sea view.",
+    image:
+      "https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?auto=format&fit=crop&w=1200&q=80",
+    price: 7000,
+    location: "Goa",
+    country: "India",
   },
 ];
 

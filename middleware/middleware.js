@@ -29,7 +29,7 @@ module.exports.isListingOwner = async (req, res, next) => {
 
   const listing = await Listings.findById(id);
 
-  if (!listing.owner.equals(req.user._id)) {
+  if (!listing.owner.equals(req.user.id)) {
     return next(new ExpressError(403, "Not authorized"));
   }
 

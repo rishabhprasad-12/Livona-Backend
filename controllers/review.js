@@ -2,20 +2,23 @@ const Listings = require("../models/listing");
 const Review = require("../models/review");
 const Reviews = require("../models/review");
 const ExpressError = require("../utils/ExpressError");
+const updateListingRating = require("../utils/ratingUtils");
 
 module.exports.createReview = async (req, res) => {
   const listing = await Listings.findById(req.params.id);
 
   const newReview = new Reviews(req.body.review);
-  console.log(req.user.id);
+
   newReview.author = req.user.id;
 
   listing.reviews.push(newReview);
 
   await newReview.save();
   await listing.save();
-
   console.log("New Review Saved!");
+
+  await updateListingRating(listing.id);
+  console.log("Review Rating update");
 
   res.json({
     status: true,
@@ -34,8 +37,10 @@ module.exports.deleteReview = async (req, res) => {
     });
   }
 
-  await Listings.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+  const listing = await Listings.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
   await Reviews.findByIdAndDelete(reviewId);
+
+  await updateListingRating(listing.id);
 
   res.json({
     status: true,

@@ -2,48 +2,77 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const Review = require('./review');
+const User = require("./user");
 
-const listingSchema = new Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  image: {
-    type: String,
-    default:
-      "https://images.unsplash.com/photo-1561501900-3701fa6a0864?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    set: (v) =>
-      v === ""
-        ? "https://images.unsplash.com/photo-1561501900-3701fa6a0864?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        : v,
-  },
-  price: {
-    type: Number,
-    required: true,
-  },
-  country: {
-    type: String,
-    required: true,
-  },
-  location: {
-    type: String,
-    required: true,
-  },
-  reviews: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Review",
+const listingSchema = new Schema(
+  {
+    title: {
+      type: String,
+      required: true,
     },
-  ],
-  owner: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    description: {
+      type: String,
+      required: true,
+    },
+    image: {
+      type: String,
+      default:
+        "https://images.unsplash.com/photo-1561501900-3701fa6a0864?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      set: (v) =>
+        v === ""
+          ? "https://images.unsplash.com/photo-1561501900-3701fa6a0864?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          : v,
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
+    country: {
+      type: String,
+      required: true,
+    },
+    location: {
+      type: String,
+      required: true,
+    },
+    category: {
+      type: String,
+      enum: [
+        "Beach",
+        "Mountain",
+        "Villa",
+        "Cabin",
+        "Hotel",
+        "Apartment",
+        "Farmhouse",
+        "Camping",
+      ],
+      default: "Apartment",
+    },
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+    reviews: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Review",
+      },
+    ],
+    averageRating: {
+      type: Number,
+      default: 0,
+    },
+
+    totalReviews: {
+      type: Number,
+      default: 0,
+    },
   },
-});
+  {
+    timestamps: true,
+  },
+);
 
 listingSchema.post("findOneAndDelete", async(deletedListing) => {
   if(deletedListing) {

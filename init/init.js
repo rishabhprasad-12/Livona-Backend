@@ -53,6 +53,44 @@ const reviewComments = [
 
 const ratings = [5, 5, 5, 5, 5, 4, 4, 4, 3];
 
+const getCategory = (listing) => {
+  const title = listing.title.toLowerCase();
+  const location = listing.location.toLowerCase();
+
+  if (location.includes("goa")) return "Beach";
+  if (location.includes("kovalam")) return "Beach";
+  if (location.includes("andaman")) return "Beach";
+  if (location.includes("gokarna")) return "Beach";
+
+  if (
+    location.includes("manali") ||
+    location.includes("shimla") ||
+    location.includes("mussoorie") ||
+    location.includes("darjeeling") ||
+    location.includes("nainital") ||
+    location.includes("kasol")
+  )
+    return "Mountain";
+
+  if (title.includes("apartment") || title.includes("studio"))
+    return "Apartment";
+
+  if (title.includes("villa")) return "Villa";
+
+  if (title.includes("cabin") || title.includes("treehouse")) return "Cabin";
+
+  if (
+    title.includes("hotel") ||
+    title.includes("resort") ||
+    title.includes("palace")
+  )
+    return "Hotel";
+
+  if (title.includes("farmhouse")) return "Farmhouse";
+
+  return "Hotel";
+};
+
 function getRandom(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
@@ -86,6 +124,7 @@ async function seedDatabase() {
     const listingsWithOwner = initData.data.map((listing) => ({
       ...listing,
       owner: getRandom(insertedUsers)._id,
+      category: getCategory(listing),
     }));
 
     const insertedListings = await Listing.insertMany(listingsWithOwner);
@@ -123,7 +162,7 @@ async function seedDatabase() {
 
     mongoose.connection.close();
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 }
 
