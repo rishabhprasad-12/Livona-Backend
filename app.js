@@ -1,5 +1,7 @@
 require("dotenv").config();
 
+console.log(process.env.FRONTEND_PROD_URL);
+
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -44,7 +46,7 @@ app.use(
   }),
 );
 
-console.log(process.env.FRONTEND_PROD_URL);
+
 
 const sessionOption = {
   secret: process.env.JWT_SECRET,
