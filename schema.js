@@ -16,6 +16,8 @@ module.exports.listingSchema = Joi.object({
         "Cabin",
         "Apartment",
         "Farmhouse",
+        "Treehouse",
+        "Camping",
       )
       .required(),
     image: Joi.string().allow("", null),

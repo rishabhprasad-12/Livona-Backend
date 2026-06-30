@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const Review = require('./review');
+const Review = require("./review");
 const User = require("./user");
 
 const listingSchema = new Schema(
@@ -15,13 +15,14 @@ const listingSchema = new Schema(
       required: true,
     },
     image: {
-      type: String,
-      default:
-        "https://images.unsplash.com/photo-1561501900-3701fa6a0864?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      set: (v) =>
-        v === ""
-          ? "https://images.unsplash.com/photo-1561501900-3701fa6a0864?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          : v,
+      url: {
+        type: String,
+        required: true,
+      },
+      filename: {
+        type: String,
+        required: true,
+      },
     },
     price: {
       type: Number,
@@ -45,6 +46,7 @@ const listingSchema = new Schema(
         "Hotel",
         "Apartment",
         "Farmhouse",
+        "Treehouse",
         "Camping",
       ],
       default: "Apartment",
@@ -74,13 +76,13 @@ const listingSchema = new Schema(
   },
 );
 
-listingSchema.post("findOneAndDelete", async(deletedListing) => {
-  if(deletedListing) {
+listingSchema.post("findOneAndDelete", async (deletedListing) => {
+  if (deletedListing) {
     await Review.deleteMany({
       _id: { $in: deletedListing.reviews },
     });
   }
-})
+});
 
 const Listings = mongoose.model("Listings", listingSchema);
 

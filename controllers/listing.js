@@ -1,6 +1,8 @@
 const Listings = require("../models/listing");
 const ExpressError = require("../utils/ExpressError");
 const User = require("../models/user");
+const { uploadToCloudinary, cloudinary } = require("../utils/cloudinary");
+const { findById } = require("../models/review");
 
 module.exports.getAllListings = async (req, res) => {
   const { search, category, price, rating, sort } = req.query;
@@ -9,7 +11,7 @@ module.exports.getAllListings = async (req, res) => {
   if (search) {
     const users = await User.find({
       username: { $regex: search, $options: "i" },
-    })
+    });
 
     const userIds = users.map((user) => user._id);
 
@@ -79,15 +81,22 @@ module.exports.getAllListings = async (req, res) => {
     .sort(sortObject)
     .populate({ path: "reviews" })
     .lean();
-    
+
   res.json(allListing);
 };
 
 module.exports.createNewListing = async (req, res) => {
+  const result = await uploadToCloudinary(req.file.buffer);
   const newListing = new Listings(req.body.listing);
+
+  newListing.image = {
+    url: result.secure_url,
+    filename: result.public_id,
+  };
   newListing.owner = req.user.id;
+
   await newListing.save();
-  res.status(201).json(newListing);
+  res.json(newListing);
 };
 
 module.exports.showListing = async (req, res, next) => {
@@ -110,17 +119,46 @@ module.exports.showListing = async (req, res, next) => {
 };
 
 module.exports.editListing = async (req, res) => {
-  let { id } = req.params;
-  const listing = await Listings.findByIdAndUpdate(id, {
+  const { id } = req.params;
+
+  const listing = await Listings.findById(id);
+
+  if (!listing) {
+    throw new ExpressError(404, "Listing not found");
+  }
+
+  let updatedData = {
     ...req.body.listing,
-  });
-  console.log(listing);
-  res.json(listing);
+  };
+
+  if (req.file) {
+    const result = await uploadToCloudinary(req.file.buffer);
+
+    if (listing.image?.filename) {
+      await cloudinary.uploader.destroy(listing.image.filename);
+    }
+
+    updatedData.image = {
+      url: result.secure_url,
+      filename: result.public_id,
+    };
+  }
+
+  const updatedListing = await Listings.findByIdAndUpdate(id, updatedData);
+
+  res.json(updatedListing);
 };
 
 module.exports.deleteListing = async (req, res) => {
   let { id } = req.params;
-  const listing = await Listings.findByIdAndDelete(id);
+  const listing = await Listings.findById(id);
+  console.log({ image: listing.image, filename: listing.image.filename });
+
+  if (listing.image?.filename) {
+    cloudinary.uploader.destroy(listing.image.filename);
+  }
+
+  await Listings.findByIdAndDelete(id);
   console.log(listing);
   res.json({
     success: true,

@@ -56,6 +56,7 @@ const sessionOption = {
 };
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(session(sessionOption));
 
 // Wishlist Route

@@ -1,7 +1,7 @@
 const { listingSchema, reviewSchema } = require("../schema");
 const ExpressError = require("../utils/ExpressError");
 const Listings = require("../models/listing");
-const Review = require('../models/review');
+const Review = require("../models/review");
 
 module.exports.validateListing = (req, res, next) => {
   let { error } = listingSchema.validate(req.body);
@@ -22,7 +22,6 @@ module.exports.validateReview = (req, res, next) => {
   }
   next();
 };
-
 
 module.exports.isListingOwner = async (req, res, next) => {
   const { id } = req.params;
@@ -45,4 +44,3 @@ module.exports.isListingOwner = async (req, res, next) => {
 //   }
 //   next();
 // };
-
