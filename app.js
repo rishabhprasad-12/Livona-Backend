@@ -13,13 +13,15 @@ const wrapAsync = require("./utils/wrapAsync");
 const ExpressError = require("./utils/ExpressError");
 const { validateListing, validateReview } = require("./middleware/middleware");
 
-const listing = require("./routes/listing");
-const review = require("./routes/review");
+const listingRoutes = require("./routes/listing");
+const reviewRoutes = require("./routes/review");
 
 const session = require("express-session");
 
 const User = require('./models/user');
-const user = require('./routes/auth');
+const userRoutes = require('./routes/auth');
+
+const wishlistRoutes = require("./routes/wishlist");
 
 const MONGO_URI = process.env.MONGO_URL; 
 
@@ -54,16 +56,20 @@ const sessionOption = {
 };
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(session(sessionOption));
 
+// Wishlist Route
+app.use("/api/wishlist", wishlistRoutes)
+
 // User Route
-app.use("/api/auth", user);
+app.use("/api/auth", userRoutes);
 
 // Review Route
-app.use("/api/listings/:id/review", review);
+app.use("/api/listings/:id/review", reviewRoutes);
 
 // Listing Route
-app.use("/api/listings", listing);
+app.use("/api/listings", listingRoutes);
 
 // Custom error handlers
 app.use((req, res, next) => {
