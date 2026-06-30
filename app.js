@@ -39,7 +39,7 @@ async function main() {
 
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
+    origin: [FRONTEND_LOCAL_URL, FRONTEND_PROD_URL],
     credentials: true,
   }),
 );
