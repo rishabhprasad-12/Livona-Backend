@@ -39,7 +39,7 @@ async function main() {
 
 app.use(
   cors({
-    origin: [FRONTEND_LOCAL_URL, FRONTEND_PROD_URL],
+    origin: [process.env.FRONTEND_PROD_URL],
     credentials: true,
   }),
 );
